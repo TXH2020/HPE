@@ -108,7 +108,7 @@ const Terminal = ({c,sclr}:any) =>
                                 else 
                                 {
                                     // For other commands, display the command and output in different lines
-                                    setOutput((prevOutput) => prevOutput + `${message.command}\n${message.output}\n\n$`);
+                                    setOutput((prevOutput) => prevOutput + `${message.command}\n${message.output}\nExecution Time:${message.executionTime}ms\n\n$`);
                                 }
                                 setPrompt("");
                                 scrollToBottom();
@@ -186,6 +186,10 @@ const Terminal = ({c,sclr}:any) =>
 
             const handleSubmit = () => 
             { 
+                var message:any=''
+                let i:number=0;
+                        c=c.trim();
+
                     if (ws.current) 
                     {       
                             
@@ -195,10 +199,23 @@ const Terminal = ({c,sclr}:any) =>
                                 console.log("WebSocket connection is closed. Cannot send command.");
                                 return;
                             }
+                            let singleLineTexts = c.split("\n");
+                            if( !c.includes("&&")){
+        
+                                for( i=0;i<singleLineTexts.length;i++)
+                                {
+                                  if(i==singleLineTexts.length-1)
+                                  message+=singleLineTexts[i]
+                                  else
+                                 message+=(singleLineTexts[i]+" && ")   
+                                }
+                            }
+                            else
+                                message+=c;
                         
-                            ws.current.send(JSON.stringify(c));
-                            setCommandHistory([...commandHistory, c]);
-                            setPrompt(c);
+                            ws.current.send(JSON.stringify(message));
+                            setCommandHistory([...commandHistory, message]);
+                            setPrompt(message);
                             scrollToBottom();
                             commandIndex.current = -1; // Reset commandIndex when a new command is submitted
                             
