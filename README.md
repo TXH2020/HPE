@@ -15,19 +15,13 @@ Eg. In Ubuntu, Debian etc; ``sudo apt-get install openssh-server`` and ``sudo se
 9. To look at the complete application, install nodejs. Then clone this repository.
 10. Run npm install in the cloned repo. If that didnt work out use npm install --force
 11. Run npm start to start the app.
-12. Same form appears to enter SSH credentials. If direct access is required then the iframe src in Terminal1.tsx in components should be as follows:
-
-http://localhost:8888?hostname=<hostname_of_machine>&&username=<username_of _user>&&password=<base_64_encoded>
+12. Enter the following credentials inside the "" of credentials.json present in Components folder of the app for direct access. If left blank, the form appears to enter the credentials.
 
 Hostname: Remote machine IP(or name in case it is a known host).
 
 username: remote machine username
 
-password: remote machine password in base 64
-
-To obtain remote machine password in base 64;
-
-``echo -n '<remote machine password>' | base64``
+password: remote machine password
 
 # Instructions to get started with Shreyas Backend:
 
