@@ -1,13 +1,19 @@
 import React, { useEffect } from 'react';
+import data from './credentials.json'
+var url:any;
+if(data.hostname!='' && data.username!='' && data.password!='')
+         url="http://localhost:8888?"+"hostname="+data.hostname+"&&username="+data.username+"&&password="+btoa(data.password)
+else
+	 url="http://localhost:8888"
 export default function Terminal({c,sclr,st}:any){
   let i:number=0;
   function sendMessage() {
+        if(c!=""){
         var message:any='';
         c=c.trim();
         let singleLineTexts = c.split("\n");
     if(c.search("script")===0)
     {
-      console.log("im in script")
         message+=singleLineTexts[0];
         const iframe = document.querySelector("iframe");
         iframe?.contentWindow?.postMessage(message, "*");
@@ -18,7 +24,6 @@ export default function Terminal({c,sclr,st}:any){
         },500)
     }
     else if( !c.includes("&&")){
-        
       for( i=0;i<singleLineTexts.length;i++)
       {
         if(i==singleLineTexts.length-1)
@@ -29,16 +34,12 @@ export default function Terminal({c,sclr,st}:any){
       const iframe = document.querySelector("iframe");
         iframe?.contentWindow?.postMessage(message, "*");
     }
-      
       else {
       message+=c;
       const iframe = document.querySelector("iframe");
       iframe?.contentWindow?.postMessage(message, "*");  
     }
-        console.log(message);
-        
-       
-      }
+      }}
       window.addEventListener('message', function(event) {
       try{
       var x=JSON.parse(event.data);
@@ -46,11 +47,10 @@ export default function Terminal({c,sclr,st}:any){
       if(Object.keys(x).length===2){
         console.log("Message received from the child: " + x.Command_Execution_Status+x.Execution_Time);
         st(x.Execution_Time)
-        const b= document.getElementById('CES') as HTMLInputElement;
         if(x.Command_Execution_Status==='0')
         sclr("green");
     else
-        sclr("red");console.log('red');
+        sclr("red");
     }
     }
       }
@@ -62,12 +62,8 @@ useEffect(()=>{
     return(
         <>
         <div>
-        {/* <button id="CES">Command Execution Status</button><br/> */}
-        <input id="Time" type="text" readOnly/>
-        {/* <input id="command_id" type="text" readOnly/> */}
         </div>
-        <iframe id="myFrame" src="http://localhost:8888" style={{position:"fixed",bottom:0, width:"100%",height:"25vh"}}/>
-        
+        <iframe id="myFrame" src={url} style={{position:"fixed",bottom:0, width:"100%",height:"25vh"}}/>
         </>
         )
 }

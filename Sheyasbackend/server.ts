@@ -14,6 +14,7 @@ let isChildRunning = false;
 let cancel = false;
 let childPid: any;
 let chkserver=0;
+let executionTime: any;
 
 
 /*async function insertDb(command: string, status: string, output: string) 
@@ -81,6 +82,7 @@ wss.on("connection", (ws: WebSocket, request: IncomingMessage) =>
             let check=0;
             //const commands = commandString.split("&&");
             const commands = commandString.split(/&&|;/);
+            //const commands = commandString.split(/&&|;|\n/);
             let combinedStatus: number = 1;// Initialize combined status to 1
             let subCommandStatus: number=1;
             for (let i = 0; i < commands.length; i++) 
@@ -90,6 +92,7 @@ wss.on("connection", (ws: WebSocket, request: IncomingMessage) =>
                 if (commandString.includes(".sh") && !commandString.includes("cat"))
                 {   
                 console.log("reached Shell script");
+                const start1 = Date.now(); // record the start time
                 //For handling files ending with sh
                 if (command.includes(".sh")) 
                 {
@@ -139,6 +142,8 @@ wss.on("connection", (ws: WebSocket, request: IncomingMessage) =>
                     else 
                     {
                         console.log(`File ${command} not found`);
+                        const end1 = Date.now(); // record the end time
+                        const executionTime1 = end1 - start1; // calculate the execution time in milliseconds     
                         // handle the error as needed
                         ws.send
                         (
@@ -146,6 +151,7 @@ wss.on("connection", (ws: WebSocket, request: IncomingMessage) =>
                                 command,
                                 status: "0",
                                 output: `Error: File not found`,
+                                executionTime:executionTime1
                                 })
                         );
                     }
@@ -172,6 +178,7 @@ wss.on("connection", (ws: WebSocket, request: IncomingMessage) =>
 async function runCommand(command: string, ws: WebSocket): Promise<number> 
 {
                 console.log("received"+command);
+                const start = Date.now(); // record the start time
                 const envVarRegex = /([A-Za-z_]+[A-Za-z0-9_]*)=(.*)/g;
                 const envVars: { [key: string]: string } = {};
                 // Extract environment variables from command
@@ -198,6 +205,8 @@ async function runCommand(command: string, ws: WebSocket): Promise<number>
                 {
                     // file not found error
                     console.error("reached file not found"+err);
+                    const end = Date.now(); // record the end time
+                    const executionTime = end - start; // calculate the execution time in milliseconds  
                     if (err.code === 'ENOENT') 
                     { 
                             ws.send
@@ -207,6 +216,7 @@ async function runCommand(command: string, ws: WebSocket): Promise<number>
                                         command,
                                         status: "0",
                                         output: `Error: File not found`,
+                                        executionTime:executionTime
                                     })
                             );
                     } 
@@ -220,6 +230,7 @@ async function runCommand(command: string, ws: WebSocket): Promise<number>
                                         command,
                                         status: "0",
                                         output: `Error: ${err.message}`,
+                                        executionTime:executionTime
                                     })
                             );
                     }
@@ -243,7 +254,7 @@ async function runCommand(command: string, ws: WebSocket): Promise<number>
                                         let currentProgress: string = "";
                                         let fileLength: number = 0; // define fileLength variable
                                         check=1;
-                                        let message = { command: command, status: "0", output: "" };
+                                        let message = { command: command, status: "0", output: "" ,executionTime: "" };
 
                                         child.stderr.on("data", (data: string) => 
                                         {
@@ -294,6 +305,7 @@ async function runCommand(command: string, ws: WebSocket): Promise<number>
                                             {
                                                 message.status = "0";
                                                 message.output = wgetOutput;
+                                                message.executionTime=executionTime;
                                                 ws.send(JSON.stringify(message));
                                             }
                                         });
@@ -337,6 +349,7 @@ async function runCommand(command: string, ws: WebSocket): Promise<number>
                                                     command: command,
                                                     output: `${bytes} ${from} ${icmpSeq} ${ttl} ${time}\n`,
                                                     status: "1",
+                                                    executionTime:""
                                                 };
                                                 ws.send(JSON.stringify(message));
                                             }
@@ -347,7 +360,8 @@ async function runCommand(command: string, ws: WebSocket): Promise<number>
                                 pingProcess.stderr.on("data", (data: string) => 
                                 {
                                         stderrChunks.push(data.toString());
-
+                                        const end = Date.now(); // record the end time
+                                        const executionTime = end - start; // calculate the execution time in milliseconds                      
                                         const lines = stderrChunks.join("").split("\n");
                                         for (let line of lines) 
                                         {
@@ -358,6 +372,7 @@ async function runCommand(command: string, ws: WebSocket): Promise<number>
                                                     command: command,
                                                     output: line,
                                                     status: "1",
+                                                    executionTime:executionTime
                                                 };
                                                 ws.send(JSON.stringify(message));
                                             }
@@ -385,25 +400,32 @@ async function runCommand(command: string, ws: WebSocket): Promise<number>
                             {
                                 // For other commands, accumulate the output and send it to the frontend after the command finishes
                                 stdoutOutput += data.toString();
+                                const end = Date.now(); // record the end time
+                                const executionTime = end - start; // calculate the execution time in milliseconds  
                                 const message = 
                                 {
                                     command: command,
                                     output: stdoutOutput,
-                                    status: "1"
+                                    status: "1",
+                                    executionTime: executionTime // send the execution time in the response
                                 };
 
                                 if (!(command.trim().startsWith("wget"))) 
                                 {
                                     ws.send(JSON.stringify(message));
                                 }
-
+                                console.log("ExecutionTime",executionTime);
                                 //insertDb(command, "1", "No error");
                             }
                 });
-
+               
                 child.stderr.on("data", (data: string) => 
                 {
                         stderrChunks.push(data.toString());
+                        const end = Date.now(); // record the end time
+                        const executionTime = end - start; // calculate the execution time in milliseconds  
+                        console.log("reacher error");
+                        console.log("executionTime2",executionTime);
                         if (command.trim().startsWith("ping")) 
                         {
                             // For the ping command, send each line of output to the frontend
@@ -411,12 +433,13 @@ async function runCommand(command: string, ws: WebSocket): Promise<number>
                             for (let line of lines) 
                             {
                                 if (line.trim() !== "") 
-                                {
+                                { const start = Date.now(); // record the start time
                                     const message = 
                                     {
                                         command: command,
                                         output: line,
                                         status: "1",
+                                        executionTime:executionTime // send the execution time in the response
                                     };
                                     ws.send(JSON.stringify(message));
                                 }
@@ -427,12 +450,14 @@ async function runCommand(command: string, ws: WebSocket): Promise<number>
                         {
                         // For other commands, accumulate the output and send it to the frontend after the command finishes
                             stderrOutput += data.toString();
-
                             const message = 
                             {
                                     command: command,
                                     output: stderrOutput,
-                                    status: "0"
+                                    status: "0",
+                                    executionTime:executionTime
+                                   
+
                             };
 
                             if (!(command.trim().startsWith("wget"))) 
@@ -450,14 +475,18 @@ async function runCommand(command: string, ws: WebSocket): Promise<number>
                     {
                         if ((code === 0) && ( (stdoutOutput.trim() === '') ) && (!(command.trim().startsWith("wget"))) && (!(command.trim().startsWith("echo"))))
                         {
+                            const end = Date.now(); // record the end time
+                            const executionTime = end - start; // calculate the execution time in milliseconds  
                             const message = 
                             {
                                 command: command,
                                 output:"",
                                 status: "1",
+                                executionTime: executionTime // send the execution time in the response
+
                             };
                             ws.send(JSON.stringify(message));
-                            
+                            console.log("ExecutionTime",executionTime);
                             resolve(1); // command succeeded
                         } 
                         else 
