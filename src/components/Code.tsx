@@ -24,6 +24,7 @@ import {TiTickOutline} from 'react-icons/ti'
 import {RxCrossCircled} from 'react-icons/rx'
 
 
+var id_event:any;
 var cmd1:any;
 var c:any;
 var clr1:any;
@@ -241,12 +242,11 @@ const IconControlGreen = () =>{
 }
 function LinkRenderer(props: any) {
   return (
-    <a href={props.href} target="_self" >
+    <a href={props.href} target="_parent" >
       {props.children}
     </a>
   );
 }
-
 
 const TextHead = ({ children }:any ) => {
   
@@ -288,7 +288,6 @@ const TextHead3 = ({ children }:any) => {
 };
 const TextBlock = ({children }:any) => {
   const[IsActive2, setIsActive2] = useState(false);
-
  Children_li[count_li] = "li"
   count_li++;
   console.log({Children_li})
@@ -355,6 +354,16 @@ const Set_True = () =>{
 }
 
 const CodeBlock = ({children}:any) => {
+  function setdiv(){
+    try{
+    if({clr1}.clr1==='green')
+    id_event.innerHTML=`<span>&#10003;</span>`+`<p>`+{time}.time+`</p>`
+    if({clr1}.clr1==='red')
+    id_event.innerHTML=`<span>&#10007;</span>`+`<p>`+{time}.time+`</p>`
+}
+    catch(err){console.log(err)}
+  }
+  setdiv();
   let lang = 'bash';
   const [isActive, setIsActive] = useState(false);
   
@@ -391,12 +400,11 @@ const CodeBlock = ({children}:any) => {
     
     <div className='codepart'>
     <div style={{margin: '2rem'}}>
-    <div >{ !isActive? <><FiIcons.FiPlay  onClick={(event) => {
-            setIsActive(!isActive); Set_True();fcmd(event);count_li=0;
-          } } style={{ fontSize: '1.2rem', color: "grey", fontWeight: "bold"  }} /></>:
-          <>{(clr1=='green')? <TiTickOutline color='green'/>:<RxCrossCircled color='red'/>}
-          </>}
-          <p>{time}</p>
+    <div >{ <><FiIcons.FiPlay  onClick={(event) => {
+            fcmd(event);count_li=0;Set_True();console.log(event.currentTarget.parentElement);id_event=event.currentTarget.parentElement;
+          } } style={{ fontSize: '1.2rem', color: "grey", fontWeight: "bold"  }} /></>
+        }
+          
     </div>
     
     </div>
@@ -422,7 +430,7 @@ const HyperLink = ({href}:any,{children}:any) =>{
 }
 const PreBlock = ({cmd,children, ...rest}:any) => {
   
-    
+  
     return(
      
       CodeBlock(children['props'])
@@ -480,20 +488,20 @@ const Code = ({content,cmd,clr,t}:any) => {
     <Markdown options={{
             overrides: {
             pre: PreBlock,
-            a:LinkRenderer,
             
             
+            
+            
+            li: TextBlock,
           
-            ol: TextBlock,
-            ul: TextBlock,
             
             h1:TextHead,
             h2:TextHead2,
+            
             h3:TextHead3
         
             },
           }}>{postContent}</Markdown></div>
-         
     </>
   )
 }
