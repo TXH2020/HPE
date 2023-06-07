@@ -33,7 +33,7 @@
 .link{
     display: inline-block;
     /* padding: 10px 15px; */
-    
+    margin-left: 1rem;
     transition: all 0.5s;
     
 }
@@ -57,13 +57,13 @@
     color: rgb(81, 79, 79);
 }
 .link_text{
-    padding-left: "4px";
+    padding-left: 1px;
     font-size: small;
     font-weight: 20%;
     display: inline;
     color: rgb(81, 79, 79);
-    margin-left: 1.5em;
-    line-height: 12px;
+    
+    line-height: 10px;
 
 }
 .link1{
@@ -117,3 +117,6 @@
   /* ::-webkit-scrollbar-thumb:hover {
     background: #555; 
   } */
+  .extra{
+    background-color: lightgray;
+  }

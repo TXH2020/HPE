@@ -54,7 +54,7 @@ font-size: 1rem;
   z-index: 10; 
   right: 4rem;
   top: 5.3rem;
-  overflow: auto; 
+  /* overflow: auto;  */
 border-radius: 3px;
   max-height: 80vh;
  

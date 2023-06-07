@@ -40,6 +40,7 @@ const Sidebar = ({ter}:any) => {
         </div>
         { SidebarData.map((item,index)=>{return <div ><SidebarItem key={index} item={item} sidebar={sidebar}></SidebarItem><hr style={{color:"darkgray", fontWeight:"bold"}}/></div>})}
       </div>
+      {/* <div className='extra'></div> */}
     </div>
     
 </>

@@ -53,12 +53,13 @@
     line-height: 2;
     margin-left: 0rem;
 }
-.h2{
+.h2Cont{
     color: gray;
     font-weight: bold;
     font-size: 1.5rem;
     line-height: 2;
-    margin-left: 0rem;
+    margin-left: 1rem;
+    
     display: inline-block;
 
 }
@@ -72,4 +73,10 @@
 
 .link_text:hover{
     color:white;
+}
+.h2{
+    margin-left: 1rem;
+    font-size: 1.5rem;
+    color: gray;
+    font-weight: bold;
 }

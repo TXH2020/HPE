@@ -37,7 +37,7 @@ const SidebarItem = ({ item, sidebar }: any) => {
             onClick={() => {
               setDropdown(!dropdown);
             }}
-            style={{ padding: "0px 10px" }}
+            style={{ padding: "0px 3px" }}
             ></BiChevronRight>
             ) : (
               ""
@@ -47,7 +47,7 @@ const SidebarItem = ({ item, sidebar }: any) => {
             onClick={() => {
               setDropdown(!dropdown);
             }}
-            style={{ padding: "0px 10px" }}
+            style={{ padding: "0px 3px" }}
             ></BiChevronDown>
             ) : (
               ""
@@ -76,7 +76,7 @@ const SidebarItem = ({ item, sidebar }: any) => {
             onClick={() => {
               setDropdown(!dropdown);
             }}
-            style={{ padding: "0px 10px" }}
+            style={{ padding: "0px 3px" }}
           ></BiChevronRight>
         ) : (
           ""
@@ -86,12 +86,12 @@ const SidebarItem = ({ item, sidebar }: any) => {
             onClick={() => {
               setDropdown(!dropdown);
             }}
-            style={{ padding: "0px 10px" }}
+            style={{ padding: "0px 3px" }}
           ></BiChevronDown>
         ) : (
           ""
         )}
-        <div className="icon">{item.icon}</div>
+        {/* <div className="icon">{item.icon}</div> */}
         <div className="link_text">{sidebar ? item.title : ""}</div>
 
         

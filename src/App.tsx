@@ -25,6 +25,7 @@ import Terminal1 from './components/Terminal1';
 // Render the component
 
 function App() {
+  const [dispterm, setdispTerm] = useState(true);
   const [term, setTerm] = useState(false);
   const [time, setTime] = useState("");
   const [cmd, setCmd] = useState("");
@@ -35,6 +36,14 @@ console.log(" App "+time)
   {
       setTerm(event.target.checked)
   }
+
+function displayTerm()
+{
+  setdispTerm((prev)=>!prev)
+}
+
+
+
 
 
   return (
@@ -56,7 +65,7 @@ console.log(" App "+time)
       size='small'
     />
     <div style={{"display":"flex"}}>
-    <Sidebar ></Sidebar>
+    <Sidebar ter={displayTerm}></Sidebar>
     {/* <Post></Post> */}
     <div className='foot_mark'>
     <Tab></Tab>
@@ -78,7 +87,7 @@ console.log(" App "+time)
     
     {/* <Footer data={"hello"}></Footer> */}
     <div>
-    {term ?<Terminal c={cmd} sclr={setLabelColor} ></Terminal>:<Terminal1 c={cmd} sclr={setLabelColor} st={setTime}></Terminal1>}
+    {dispterm &&(term ?<Terminal c={cmd} sclr={setLabelColor} ></Terminal>:<Terminal1 c={cmd} sclr={setLabelColor} st={setTime}></Terminal1>)}
     </div>
     </div>
     </div>

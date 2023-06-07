@@ -111,7 +111,7 @@ function tabs(s1){
             
             to={e}
             onClick={(event) => {
-              openCity(event, e);
+              openCity(event, e);localStorage.setItem("c","[]");localStorage.setItem("s","1");
             }}
             style={{paddingRight:"0.5em"}}
           >
@@ -120,7 +120,7 @@ function tabs(s1){
           </Link>
           <GrFormClose
               onClick={(event) => {
-                closeCity(event,e);
+                closeCity(event,e);localStorage.setItem("c","[]");localStorage.setItem("s","1");
               }} 
             ></GrFormClose>
         </button>

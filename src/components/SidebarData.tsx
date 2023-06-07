@@ -48,27 +48,27 @@ export const SidebarData= [
           {
             title: 'SLE',
             path: '/s0',
-            icon:  <AiIcons.AiOutlineCheckCircle />
+            // icon:  <AiIcons.AiOutlineCheckCircle />
           },
           {
             title: 'SLS',
             path: '/s1',
-            icon:  <AiIcons.AiOutlineCheckCircle />
+            // icon:  <AiIcons.AiOutlineCheckCircle />
           },
           {
             title: 'COS',
             path: '/overview/s2',
-            icon:  <AiIcons.AiOutlineCheckCircle />
+            // icon:  <AiIcons.AiOutlineCheckCircle />
           },
           {
             title: 'HFP',
             path: '/overview/s3',
-            icon:  <AiIcons.AiOutlineCheckCircle />
+            // icon:  <AiIcons.AiOutlineCheckCircle />
           },
           {
             title: 'CSM',
             path: '/csm',
-            icon:  <AiIcons.AiOutlineCheckCircle />,
+            // icon:  <AiIcons.AiOutlineCheckCircle />,
             iconClosed: <AiIcons.AiOutlineCheckCircle />,
             iconOpened: <AiIcons.AiOutlineCheckCircle />,
 
@@ -76,27 +76,27 @@ export const SidebarData= [
               {
                 title: 'Stage-0 Prerequisites',
                 path: '/s0',
-                icon:  <AiIcons.AiOutlineCheckCircle className='side_icons'/>
+                // icon:  <AiIcons.AiOutlineCheckCircle className='side_icons'/>
               },
               {
                 title: 'Stage-1 Ceph Image upgrade',
                 path: '/s1',
-                icon:  <AiIcons.AiOutlineCheckCircle className='side_icons'/>
+                // icon:  <AiIcons.AiOutlineCheckCircle className='side_icons'/>
               },
               {
                 title: 'Stage-2 Kubernetes upgrade',
                 path: '/s2',
-                icon:  <AiIcons.AiOutlineCheckCircle className='side_icons'/>
+                // icon:  <AiIcons.AiOutlineCheckCircle className='side_icons'/>
               },
               {
                 title: 'Stage-3 CSM Service upgrade',
                 path: '/s3',
-                icon:  <AiIcons.AiOutlineCheckCircle className='side_icons'/>
+                // icon:  <AiIcons.AiOutlineCheckCircle className='side_icons'/>
               },
               {
                 title: 'Stage-4 Ceph upgrade',
                 path: '/s4',
-                icon:  <AiIcons.AiOutlineCheckCircle className='side_icons'/>
+                // icon:  <AiIcons.AiOutlineCheckCircle className='side_icons'/>
               }
 
             ]
@@ -105,22 +105,22 @@ export const SidebarData= [
       {
         title: 'SMA',
         path: '/overview/s3',
-        icon:  <AiIcons.AiOutlineCheckCircle />
+        // icon:  <AiIcons.AiOutlineCheckCircle />
       },
       {
         title: 'SAT',
         path: '/overview/s3',
-        icon:  <AiIcons.AiOutlineCheckCircle />
+        // icon:  <AiIcons.AiOutlineCheckCircle />
       },
       {
         title: 'UAN',
         path: '/overview/s3',
-        icon:  <AiIcons.AiOutlineCheckCircle />
+        // icon:  <AiIcons.AiOutlineCheckCircle />
       },
       {
         title: 'Analytics',
         path: '/overview/s3',
-        icon:  <AiIcons.AiOutlineCheckCircle />
+        // icon:  <AiIcons.AiOutlineCheckCircle />
       }
         
     ]

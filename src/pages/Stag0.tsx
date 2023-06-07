@@ -1,7 +1,7 @@
 import React from 'react'
 import Post from '../components/Post'
 import Code from '../components/Code'
-const c = require("../markdown/Stage0New.md")
+const c = require("../markdown/Stage0.md")
 
 const Stag0 = ({cmd,clr,t}:any) => {
   // let c="a";
